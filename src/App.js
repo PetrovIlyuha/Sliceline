@@ -1,9 +1,11 @@
 import React from 'react';
 import {createGlobalStyle} from 'styled-components';
+import {Navbar} from "./Navbar/Navbar";
 
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Poppins', sans-serif;
+    margin: 0;
   }
   
   h1, h2, h3 {
@@ -14,9 +16,9 @@ const GlobalStyle = createGlobalStyle`
 function App() {
     return (
         <>
-            <h1>Little Italia</h1>
+            <Navbar/>
             <GlobalStyle/>
-            <div>Pizza Shop</div>
+            <div>Little Italia</div>
         </>
     );
 }
