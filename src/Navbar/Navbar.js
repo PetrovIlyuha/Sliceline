@@ -7,6 +7,8 @@ const NavbarStyled = styled.div`
   background-color: ${pizzaRed};
   font-size: 1.2rem;
   padding: 10px;
+  position: fixed;
+  width: 100%;
 `;
 
 const Logo = styled(Title)`
@@ -20,7 +22,6 @@ export function Navbar(){
         <Logo>
             Little Italy 🍕
         </Logo>
-        This is Navigation
     </NavbarStyled>
 }
 
