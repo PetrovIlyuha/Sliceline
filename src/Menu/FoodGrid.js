@@ -24,7 +24,7 @@ export const Food = styled(Title)`
   filter: saturate(60%);
   border-radius: 10px;
   margin-top: 5px;
-  transition-property: box-shadow margin-top filter;
+  transition-property: box-shadow filter margin-top;
   transition-duration: .2s;
   box-shadow: 10px 12px 8px -10px rgba(163,18,18,1);
   &:hover {
