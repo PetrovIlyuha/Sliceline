@@ -21,11 +21,17 @@ export const Food = styled(Title)`
   background-image: ${({img}) => `url(${img});`}
   background-position: center;
   background-size: cover;
-  filter: saturate(80%);
+  filter: saturate(60%);
   border-radius: 10px;
-  box-shadow: 10px 12px 18px -10px rgba(163,18,18,1);
+  margin-top: 5px;
+  transition-property: box-shadow margin-top filter;
+  transition-duration: .2s;
+  box-shadow: 10px 12px 8px -10px rgba(163,18,18,1);
   &:hover {
     cursor: pointer;
-    opacity: 0.7;
+    margin-top: 0;
+    margin-bottom: 5px;
+    filter: saturate(100%);
+    box-shadow: 10px 12px 18px -10px rgba(163,18,18,1);
   }
 `;
