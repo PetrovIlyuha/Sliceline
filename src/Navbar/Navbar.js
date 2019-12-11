@@ -9,7 +9,7 @@ const NavbarStyled = styled.div`
   padding: 10px;
   position: fixed;
   width: 100%;
-  z-index: 3;
+  z-index: 30;
   box-shadow: -13px 6px 20px 1px #0d0c09;
   border-bottom: 0.2px solid black;
 `;
