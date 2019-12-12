@@ -71,9 +71,7 @@ const DialogBannerName = styled(FoodLabel)`
   padding: 5px 40px;
 `;
 
-/**
- * @return {null}
- */
+
 export function getPrice(order){
     return order.quantity * order.price;
 }
