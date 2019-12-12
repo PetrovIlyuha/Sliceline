@@ -6,6 +6,8 @@ import {Title} from "../Styles/title";
 import {formatPrice} from "../Data/FoodData";
 import {QuantityInput} from './QuantityInput';
 import {useQuantity} from "../Hooks/useQuantity";
+import {useToppings} from "../Hooks/useToppings";
+import {Toppings} from "./Toppings";
 
 const Dialog = styled.div`
   width: 500px;
@@ -23,8 +25,8 @@ const Dialog = styled.div`
 
 export const DialogContent = styled.div` 
   overflow: auto;
-  min-height: 100px;
-  padding: 0 40px;
+  min-height: 200px;
+  padding: 10px 40px 80px 10px;
 `;
 
 export const DialogFooter = styled.div`
@@ -70,14 +72,18 @@ const DialogBannerName = styled(FoodLabel)`
   font-size: 2rem;
   padding: 5px 40px;
 `;
-
+const pricePerTopping = 0.5;
 
 export function getPrice(order){
-    return order.quantity * order.price;
+    return order.quantity * (order.price + order.toppings.filter(t => t.checked).length * pricePerTopping);
 }
 
+function hasToppings(food){
+    return food.section === "Pizza";
+};
 function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
     const quantity = useQuantity(openFood && openFood.quantity);
+    const toppings = useToppings(openFood.toppings);
     function closeDialog() {
         setOpenFood();
     }
@@ -86,7 +92,8 @@ function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
 
     const order = {
         ...openFood,
-        quantity: quantity.value
+        quantity: quantity.value,
+        toppings: toppings.toppings
     };
 
     function addToOrder() {
@@ -104,6 +111,11 @@ function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
                 </DialogBanner>
                 <DialogContent>
                     <QuantityInput quantity={quantity}/>
+                    {hasToppings(openFood) &&
+                        <>
+                        <h3> Would you like toppings? </h3>
+                    <Toppings {...toppings}/>
+                    </>}
                 </DialogContent>
                 <DialogFooter>
                     <ConfirmButton onClick={addToOrder}>
