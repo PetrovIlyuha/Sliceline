@@ -8,6 +8,8 @@ import {QuantityInput} from './QuantityInput';
 import {useQuantity} from "../Hooks/useQuantity";
 import {useToppings} from "../Hooks/useToppings";
 import {Toppings} from "./Toppings";
+import { useChoice } from '../Hooks/useChoice';
+import { Choices } from "./Choices";
 
 const Dialog = styled.div`
   width: 500px;
@@ -46,6 +48,13 @@ export const ConfirmButton = styled(Title)`
   width: 200px;
   cursor: pointer;
   background-color: ${pizzaRed};
+  ${({disabled}) => disabled &&
+    `
+        opacity: .5;
+        background-color: grey;
+        pointer-events: none;
+    `
+}
 `;
 
 const DialogShadow = styled.div`
@@ -61,16 +70,16 @@ const DialogShadow = styled.div`
 const DialogBanner = styled.div`
   min-height: 200px;
   margin-bottom: 20px;
-  ${({img}) => `background-image: url(${img});`}
+  ${({img}) => (img ? `background-image: url(${img});` : `min-height: 75px;`)}
   background-position: center;
   background-size: cover;
   border-radius: 10px 10px 0 0;
 `;
 
-const DialogBannerName = styled(FoodLabel)`
-  top: 100px;
+const DialogBannerName = styled(FoodLabel)`  
   font-size: 2rem;
   padding: 5px 40px;
+  top: ${({img}) => (img ? `100px` : `20px`)}
 `;
 const pricePerTopping = 0.5;
 
@@ -84,6 +93,7 @@ function hasToppings(food){
 function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
     const quantity = useQuantity(openFood && openFood.quantity);
     const toppings = useToppings(openFood.toppings);
+    const choiceRadio = useChoice(openFood.choice);
     function closeDialog() {
         setOpenFood();
     }
@@ -93,7 +103,8 @@ function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
     const order = {
         ...openFood,
         quantity: quantity.value,
-        toppings: toppings.toppings
+        toppings: toppings.toppings,
+        choice: choiceRadio.value
     };
 
     function addToOrder() {
@@ -116,9 +127,10 @@ function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
                         <h3> Would you like toppings? </h3>
                     <Toppings {...toppings}/>
                     </>}
+                    {openFood.choices && <Choices openFood={openFood} choiceRadio={choiceRadio}/>}
                 </DialogContent>
                 <DialogFooter>
-                    <ConfirmButton onClick={addToOrder}>
+                    <ConfirmButton onClick={addToOrder} disabled={openFood.choices && !choiceRadio.value}>
                         Add to Order: {formatPrice(getPrice(order))}
                     </ConfirmButton>
                 </DialogFooter>
